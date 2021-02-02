@@ -30,7 +30,7 @@ function Copyright() {
 const signUpUser = async (credentials) => {
   try {
     console.log("signin user called");
-    const url = "https://google-drive-clone-rk.herokuapp.com/register";
+    const url = `${process.env.REACT_APP_BACK_END_URL}/register`;
     //const url = 'http://localhost:8585/login';
     const response = await fetch(url, {
       method: "POST",
