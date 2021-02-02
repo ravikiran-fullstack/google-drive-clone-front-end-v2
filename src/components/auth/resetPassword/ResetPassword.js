@@ -67,8 +67,7 @@ const ResetPassword = () => {
               id="password"
               autoComplete="current-password"
               onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                if (e.target.value !== password) {
+                if (password && e.target.value !== password) {
                   setShowError(true);
                 } else { 
                   setConfirmPassword(e.target.value);
