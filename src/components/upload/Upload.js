@@ -40,7 +40,7 @@ const Upload = () => {
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h5" className={classes.heading}>
-            Confirm Email
+            Upload File
           </Typography>
           <form
             className={classes.form}

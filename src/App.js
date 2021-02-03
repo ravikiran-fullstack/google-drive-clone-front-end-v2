@@ -1,73 +1,68 @@
 import React from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import SignIn from './components/auth/signin/SignIn';
-import SignUp from './components/auth/signup/SignUp';
-import ConfirmEmailForgotPassword from './components/auth/confirmEmailForgotPassword/ComfirmEmailForgotPassword';
-import ResetPassword from './components/auth/resetPassword/ResetPassword';
+import SignIn from "./components/auth/signin/SignIn";
+import SignUp from "./components/auth/signup/SignUp";
+import ConfirmEmailForgotPassword from "./components/auth/confirmEmailForgotPassword/ComfirmEmailForgotPassword";
+import ResetPassword from "./components/auth/resetPassword/ResetPassword";
 
 import Home from "./components/home/Home";
-import Preferences from "./components/preferences/Preferences";
 import Upload from "./components/upload/Upload";
+import MenuAppBar from './components/menuappbar/MenuAppBar';
+
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 
 //hooks
-import useToken from './hooks/useToken';
+import useToken from "./hooks/useToken";
+import useStyles from "./appStyles";
 
 const App = () => {
   const currentUrl = window.location.pathname;
   const { token, setToken } = useToken();
 
-  if (currentUrl.includes("/signup")) { 
+  const classes = useStyles();
+
+  if (currentUrl.includes("/signup")) {
     localStorage.clear();
-    return <SignUp/>
+    return <SignUp />;
   }
 
-  if (currentUrl.includes('/confirmemail')) { 
+  if (currentUrl.includes("/confirmemail")) {
     localStorage.clear();
-    return <ConfirmEmailForgotPassword/>
+    return <ConfirmEmailForgotPassword />;
   }
 
-  if (currentUrl.includes('/reset')) { 
+  if (currentUrl.includes("/reset")) {
     localStorage.clear();
-    return <ResetPassword/>
+    return <ResetPassword />;
   }
 
-  if (!token && !currentUrl.includes("/signup")) { 
-    return <SignIn setToken={ setToken }/>
+  if (!token && !currentUrl.includes("/signup")) {
+    return <SignIn setToken={setToken} />;
   }
 
   return (
-    <div className="wrapper">
-      <h1> Google Drive Clone</h1>
+    <div>
       <BrowserRouter>
-        <Switch>
-          <Route path="/home">
-            <Home></Home>
-          </Route>
-          <Route path="/preferences">
-            <Preferences></Preferences>
-          </Route>
-          <Route path="/upload">
-            <Upload></Upload>
-          </Route>
-          <Route exact path="/">
-            <Home></Home>
-          </Route>
-        </Switch>
-
-        <nav>
-          <ul>
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li>
-              <Link to="/preferences">Preferences</Link>
-            </li>
-            <li>
-              <Link to="/upload">Upload</Link>
-            </li>
-          </ul>
-        </nav>
+        <MenuAppBar/>
+        <Container component="main" className={classes.container}>
+          <Grid container justify="center">
+            <Grid item>
+              <Switch>
+                <Route exact path="/">
+                  <Home></Home>
+                </Route>
+                <Route path="/home">
+                  <Home></Home>
+                </Route>
+                <Route path="/upload">
+                  <Upload></Upload>
+                </Route>
+              </Switch>
+            </Grid>
+          </Grid>
+        </Container>
       </BrowserRouter>
     </div>
   );
