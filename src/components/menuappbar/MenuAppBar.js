@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
+import Switch from "@material-ui/core/Switch";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -24,7 +25,7 @@ import BackupIcon from "@material-ui/icons/Backup";
 
 import useStyles from "./styles";
 
-export default function MenuAppBar() {
+export default function MenuAppBar({ handleThemeChange, isDark }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -62,6 +63,7 @@ export default function MenuAppBar() {
           <Typography variant="h6" noWrap style={{flexGrow:'1'}}>
             Google Drive Clone
           </Typography>
+          <Switch checked={isDark} onClick={handleThemeChange}/>
           <Button variant="contained" color="secondary" onClick={() => handleSignOut()}>Sign Out</Button>
         </Toolbar>
       </AppBar>
