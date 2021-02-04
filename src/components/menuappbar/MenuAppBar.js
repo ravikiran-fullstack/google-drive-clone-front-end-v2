@@ -12,6 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -36,6 +37,11 @@ export default function MenuAppBar() {
     setOpen(false);
   };
 
+  const handleSignOut = () => { 
+    localStorage.clear();
+    window.location.assign('/home');
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -53,9 +59,10 @@ export default function MenuAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap style={{flexGrow:'1'}}>
             Google Drive Clone
           </Typography>
+          <Button variant="contained" color="secondary" onClick={() => handleSignOut()}>Sign Out</Button>
         </Toolbar>
       </AppBar>
       <Drawer
