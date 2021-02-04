@@ -12,6 +12,27 @@ import Typography from "@material-ui/core/Typography";
 
 import useStyles from "./styles";
 
+const resetPassword = async (credentials) => {
+  try {
+    const url = `${process.env.REACT_APP_BACK_END_URL}/resetPassword`;    
+    //const url = 'http://localhost:8585/login';
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+    const status = response.status;
+    // console.log("res, status", response, status);
+    const data = await response.json();
+    // console.log("data", data);
+    return data;
+  } catch (err) {
+    console.log("login error", err);
+  }
+};
+
 const ResetPassword = () => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -19,7 +40,15 @@ const ResetPassword = () => {
 
   const classes = useStyles();
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    const username = window.location.href.match(/username=([^&]*)/)[1];
+    e.preventDefault();
+    const data = await resetPassword({
+      username,
+      password
+    });
+    console.log("token", data);
+  };
 
   return (
     <>
