@@ -37,6 +37,9 @@ const ResetPassword = () => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [showError, setShowError] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageContent, setMessageContent] = useState();
+  const [success, setSuccess] = useState(false);
 
   const classes = useStyles();
 
@@ -47,8 +50,27 @@ const ResetPassword = () => {
       username,
       password
     });
-    console.log("token", data);
+    handleResponse(data);
   };
+
+  const handleResponse = (data) => {
+    if (data.message === "Password reset successfully") {
+      setShowError(false);
+      setSuccess(true);
+      setMessageContent(
+        "Password has been successfully reset, you will be redirected to login page"
+      );
+      setTimeout(() => {
+        localStorage.clear();
+        window.location.assign('/home');
+      }, 2000);
+    } else {
+      setSuccess(false);
+      setShowError(true);
+      setMessageContent("An error ocurred, please try again later!");
+    }    
+  };
+
 
   return (
     <>
@@ -122,7 +144,19 @@ const ResetPassword = () => {
                     className={classes.messageFailure}
                     variant="subtitle1"
                   >
-                    Passwords do no match
+                    { messageContent || 'Passwords do no match'}
+                  </Typography>
+                </Grid>
+              </Grid>
+            )}
+            {success && (
+              <Grid container justify="center">
+                <Grid item>
+                  <Typography
+                    className={classes.messageSuccess}
+                    variant="subtitle1"
+                  >
+                    { messageContent }
                   </Typography>
                 </Grid>
               </Grid>
