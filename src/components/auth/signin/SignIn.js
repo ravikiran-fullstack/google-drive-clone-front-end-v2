@@ -89,18 +89,6 @@ const SignIn = ({ setToken }) => {
     console.log("login error", err);
   };
 
-  const handleButtonClick = () => {
-    
-    if (!loading) {
-      setSuccess(false);
-      setLoading(true);
-      timer.current = setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-      }, 1000);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false);
