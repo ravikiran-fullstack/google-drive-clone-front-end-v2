@@ -29,7 +29,7 @@ function Copyright() {
 
 const signUpUser = async (credentials) => {
   try {
-    console.log("signin user called");
+    console.log("signup user called");
     const url = `${process.env.REACT_APP_BACK_END_URL}/register`;
     //const url = 'http://localhost:8585/login';
     const response = await fetch(url, {
@@ -40,9 +40,9 @@ const signUpUser = async (credentials) => {
       body: JSON.stringify(credentials),
     });
     const status = response.status;
-    console.log("res, status", response, status);
+    // console.log("res, status", response, status);
     const data = await response.json();
-    console.log("data", data);
+    // console.log("data", data);
     return data;
   } catch (err) {
     console.log("login error", err);

@@ -9,7 +9,7 @@ const useToken = () => {
   }
 
   const saveToken = userToken => {
-    console.log('userToken ------------', userToken);
+    // console.log('userToken ------------', userToken);
     if (userToken && userToken.username) { 
       localStorage.setItem('token', JSON.stringify(userToken.token));
       setToken(userToken.token);

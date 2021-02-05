@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import Container from "@material-ui/core/Container";
@@ -14,28 +14,10 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 
-import useStyles from "./styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import clsx from "clsx";
 
-const signInUser = async (credentials) => {
-  try {
-    const url = `${process.env.REACT_APP_BACK_END_URL}/login`;    
-    //const url = 'http://localhost:8585/login';
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    });
-    const status = response.status;
-    console.log("res, status", response, status);
-    const data = await response.json();
-    console.log("data", data);
-    return data;
-  } catch (err) {
-    console.log("login error", err);
-  }
-};
+import useStyles from "./styles";
 
 const Copyright = () => {
   return (
@@ -51,17 +33,84 @@ const Copyright = () => {
 };
 
 const SignIn = ({ setToken }) => {
+  const classes = useStyles();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const classes = useStyles();
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
+
+  const timer = useRef();
+  const passwordFieldRef = useRef();
+
+  const buttonClassname = clsx({
+    [classes.submit]: true,
+    [classes.buttonSuccess]: success,
+  });
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const signInUser = async (credentials) => {
+    try {
+      const url = `${process.env.REACT_APP_BACK_END_URL}/login`;
+      //const url = 'http://localhost:8585/login';
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+      const status = response.status;
+      const data = await response.json();
+      if (status > 399) {
+        throw new Error(data.message);
+      }
+      setSuccess(true);
+      setLoading(false);
+      return data;
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const handleError = (err) => {
+    passwordFieldRef.current.value = "";
+    passwordFieldRef.current.focus();
+    setError(true);
+    setSuccess(true);
+    setLoading(false);
+    setErrorMessage(err.message);
+    console.log("login error", err);
+  };
+
+  const handleButtonClick = () => {
+    
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 1000);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(false);
+    setSuccess(false);
+    setLoading(true);
     const data = await signInUser({
       username,
       password,
     });
-    console.log("token", data);
+    // console.log("token", data);
     setToken(data);
   };
 
@@ -76,7 +125,11 @@ const SignIn = ({ setToken }) => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} onSubmit={handleSubmit} noValidate={ false }>
+          <form
+            className={classes.form}
+            onSubmit={handleSubmit}
+            noValidate={false}
+          >
             <TextField
               variant="outlined"
               margin="normal"
@@ -99,6 +152,7 @@ const SignIn = ({ setToken }) => {
               type="password"
               id="password"
               autoComplete="current-password"
+              inputRef={passwordFieldRef}
               onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
@@ -110,10 +164,28 @@ const SignIn = ({ setToken }) => {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={buttonClassname}
+              disabled={loading}
             >
               Sign In
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
             </Button>
+            {error && (
+              <Grid
+                container
+                justify="center"
+                className={  classes.failureContainer }
+              >
+                <Grid item>
+                  <Typography variant="subtitle2">{errorMessage}</Typography>
+                </Grid>
+              </Grid>
+            )}
             <Grid container>
               <Grid item xs>
                 <Link href="/confirmemail" variant="body2">

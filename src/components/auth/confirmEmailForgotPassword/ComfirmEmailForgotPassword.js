@@ -24,9 +24,9 @@ const sendEmailToServer = async (credentials) => {
       body: JSON.stringify(credentials),
     });
     const status = response.status;
-    console.log("res, status", response, status);
+    // console.log("res, status", response, status);
     const data = await response.json();
-    console.log("data", data);
+    // console.log("data", data);
     return data;
   } catch (err) {
     console.log("login error", err);
@@ -45,12 +45,12 @@ const ConfirmEmailForgotPassword = () => {
     const data = await sendEmailToServer({
       username: email,
     });
-    console.log("token", data);
+    // console.log("token", data);
     handleResponse(data);
   };
 
   const handleResponse = (data) => {
-    console.log('data', data);
+    // console.log('data', data);
     setShowMessage(true);
     if (data.message === "Sent Successfully") {
       setSuccess(true);
