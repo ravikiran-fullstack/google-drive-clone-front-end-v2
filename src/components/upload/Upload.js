@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from 'axios';
 
 // import S3 from 'react-aws-s3';
 import {
@@ -17,6 +18,43 @@ import { nanoid } from "nanoid";
 import useStyles from "./styles";
 
 const Upload = () => {
+
+  const token = JSON.parse(localStorage.getItem("token"));
+  const username = JSON.parse(localStorage.getItem("username"));
+  if (!token) {
+    localStorage.clear();
+    window.location.assign("/home");
+  }
+
+  const authenticateUser = async () => {
+    console.log("authenticateUser---------------------");
+    try {
+      await axios.post(
+        "http://localhost:8585/authenticateSession",
+        {
+          token,
+          username,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      localStorage.clear();
+      window.location.assign("/home");
+    }
+  };
+
+  useEffect(() => {
+    console.log("useEffect");
+    authenticateUser();
+  }, []);
+
+
   const fileInput = useRef();
   const classes = useStyles();
   const config = {
@@ -35,12 +73,11 @@ const Upload = () => {
       Bucket: config.bucketName,
       // Specify the name of the new object. For example, 'index.html'.
       // To create a directory for the object, use '/'. For example, 'myApp/package.json'.
-      Key: `google-drive-clone/${randomName}.jpg`,
+      Key: `${randomName}.jpg`,
       // Content of the new object.
       Body: file,
       ACL:'public-read'
     };
-    const bucketParams = { Bucket: config.bucketName }; 
     const creds = {
       accessKeyId: config.accessKeyId,
       secretAccessKey: config.secretAccessKey,
@@ -51,14 +88,11 @@ const Upload = () => {
       region: config.region,
       credentials: creds,
     });
-    let str = `https://${config.bucketName}.s3-${config.region}.amazonaws.com/google-drive-clone/${randomName}.jpg`
+
+    let str = `https://${config.bucketName}.s3-${config.region}.amazonaws.com/google-drive-clone/${username}/${randomName}.jpg`
     console.log('str ',str);
     s3.send(new PutObjectCommand(uploadParams))
       .then((data) => console.log(data, str))
-      .catch((err) => console.log(err));
-
-    s3.send(new ListBucketsCommand(bucketParams))
-      .then((data) => console.log('ListBucketsCommand ',data))
       .catch((err) => console.log(err));
 
     // const ReactS3Client = new S3(config);

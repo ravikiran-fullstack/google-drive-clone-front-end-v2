@@ -2,22 +2,18 @@ import { useState } from 'react';
 
 const useToken = () => {
   const getToken = () => { 
+    console.log('Retrieving token');
     const tokenString = localStorage.getItem('token');
-    
-    console.log(tokenString);
     return tokenString ? tokenString: null;
   }
 
   const saveToken = userToken => {
-    // console.log('userToken ------------', userToken);
+    console.log('Saving token');
     if (userToken && userToken.username) { 
       localStorage.setItem('token', JSON.stringify(userToken.token));
+      localStorage.setItem('username', JSON.stringify(userToken.username));
       setToken(userToken.token);
-    }
-    
-    //console.log(userToken);
-    //window.location.assign('/');
-    
+    }    
   };
 
   const [token, setToken] = useState(getToken());

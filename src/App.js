@@ -22,6 +22,9 @@ import { dark } from "@material-ui/core/styles/createPalette";
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);  
+  const { token, setToken } = useToken();
+  
+  const classes = useStyles();
   const darkTheme = createMuiTheme({
     palette: {
       type: "dark",
@@ -43,12 +46,7 @@ const App = () => {
     setIsDark(!isDark);
   }
 
-
   const currentUrl = window.location.pathname;
-  const { token, setToken } = useToken();
-
-  const classes = useStyles();
-
   if (currentUrl.includes("/signup")) {
     localStorage.clear();
     return <SignUp />;
@@ -70,7 +68,6 @@ const App = () => {
 
   return (
     <ThemeProvider theme={ isDark? darkTheme: lightTheme }>
-      <div>
         <BrowserRouter>
           <MenuAppBar handleThemeChange={ handleThemeChange} isDark={isDark} />
           <Container component="main" className={classes.container}>
@@ -80,6 +77,7 @@ const App = () => {
                   <Route exact path="/">
                     <Home></Home>
                   </Route>
+                  
                   <Route path="/home">
                     <Home></Home>
                   </Route>
@@ -91,7 +89,6 @@ const App = () => {
             </Grid>
           </Container>
         </BrowserRouter>
-      </div>
     </ThemeProvider>
   );
 };

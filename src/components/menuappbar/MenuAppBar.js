@@ -38,10 +38,10 @@ export default function MenuAppBar({ handleThemeChange, isDark }) {
     setOpen(false);
   };
 
-  const handleSignOut = () => { 
+  const handleSignOut = () => {
     localStorage.clear();
-    window.location.assign('/home');
-  }
+    window.location.assign("/home");
+  };
 
   return (
     <div className={classes.root}>
@@ -60,24 +60,23 @@ export default function MenuAppBar({ handleThemeChange, isDark }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap style={{flexGrow:'1'}}>
+          <Typography variant="h6" noWrap style={{ flexGrow: "1" }}>
             Google Drive Clone
           </Typography>
-          <Switch checked={isDark} onClick={handleThemeChange}/>
-          <Button variant="contained" color="secondary" onClick={() => handleSignOut()}>Sign Out</Button>
+          <Switch checked={isDark} onClick={handleThemeChange} />
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleSignOut()}
+          >
+            Sign Out
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
         variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
+        className={clsx(classes.drawer, {[classes.drawerOpen]: open,[classes.drawerClose]: !open})}
+        classes={{paper: clsx({[classes.drawerOpen]: open,[classes.drawerClose]: !open}),
         }}
       >
         <div className={classes.toolbar}>
