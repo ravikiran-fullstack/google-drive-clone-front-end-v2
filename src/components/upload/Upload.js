@@ -29,7 +29,7 @@ const Upload = () => {
     console.log("authenticateUser---------------------");
     try {
       await axios.post(
-        "http://localhost:8585/authenticateSession",
+        `${process.env.REACT_APP_BACK_END_URL}/authenticateSession`,
         {
           token,
           username,
