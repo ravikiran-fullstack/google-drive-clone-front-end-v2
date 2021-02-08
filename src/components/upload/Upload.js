@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import axios from 'axios';
 
 // import S3 from 'react-aws-s3';
 import {
   S3Client,
-  ListBucketsCommand,
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
 
@@ -67,7 +66,7 @@ const Upload = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let file = fileInput.current.files[0];
-    let newFileName = fileInput.current.files[0].name.replace(/\..+$/, "");
+    //let newFileName = fileInput.current.files[0].name.replace(/\..+$/, "");
     const randomName = nanoid(10).toLowerCase();
     const uploadParams = {
       Bucket: config.bucketName,
