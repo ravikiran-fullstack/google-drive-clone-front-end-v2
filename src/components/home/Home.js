@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useStyles from "./styles";
 import Grid from "@material-ui/core/Grid";
-
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import File from "../file/File.js";
 
 const Home = () => {
@@ -50,7 +50,7 @@ const Home = () => {
       } else { 
         file.displayImage = './images/doc.png';
       }
-      // file.fileName = file.fileName.slice(6, file.fileName.length);
+      file.originalName = file.fileName.slice(6, file.fileName.length);
       // console.log('file.slice(file.fileName.indexOf("_") + 1, file.fileName.length - 1)', file.slice(file.fileName.indexOf("_") + 1, file.fileName.length - 1));
       // file.fileName = file.slice(file.fileName.indexOf("_") + 1, file.fileName.length - 1);
 
