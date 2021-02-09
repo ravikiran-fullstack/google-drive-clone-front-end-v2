@@ -39,7 +39,7 @@ export default function MenuAppBar({ handleThemeChange, isDark }) {
   };
 
   const handleSignOut = () => { 
-    localStorage.clear();
+    localStorage.removeItem('token');
     window.location.assign('/home');
   }
 
