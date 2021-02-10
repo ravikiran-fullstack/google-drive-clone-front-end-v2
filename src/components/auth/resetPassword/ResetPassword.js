@@ -61,7 +61,7 @@ const ResetPassword = () => {
         "Password has been successfully reset, you will be redirected to login page"
       );
       setTimeout(() => {
-        localStorage.clear();
+        localStorage.removeItem('token');
         window.location.assign('/home');
       }, 2000);
     } else {

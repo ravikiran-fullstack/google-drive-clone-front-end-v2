@@ -19,12 +19,25 @@ export default makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   heading: {
-    textTransform: 'uppercase'
+    textTransform: "uppercase",
   },
   messageSuccess: {
-    color: 'green'
+    color: "green",
   },
   messageFailure: {
-    color: 'red'
+    color: "red",
+  },
+  imgHolder: {
+    margin: "auto",
+    width: "150px",
+    height: "150px",
+    border: "3px black solid",
+    borderRadius: "5px",
+    marginTop: "1rem",
+  },
+  img:{
+    width: "150px",
+    height: "150px",
+    objectFit: "cover"
   }
 }));
