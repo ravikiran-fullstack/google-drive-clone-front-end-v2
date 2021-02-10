@@ -7,6 +7,8 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
 
 import useStyles from "./styles";
 
@@ -15,6 +17,11 @@ const Upload = () => {
   const classes = useStyles();
   const [previewImage, setPreviewImage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState();
   // const [enableUpload, setEna]
 
   const token = JSON.parse(localStorage.getItem("token"));
@@ -46,8 +53,13 @@ const Upload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(false);
+    setSuccess(false);
+    setLoading(true);
+    setMessage('');
     let file = fileInput.current.files[0];
     if (!file) {
+      setLoading(false);
       return;
     }
     // let newFileName = fileInput.current.files[0].name.replace(/\..+$/, "");
@@ -77,8 +89,19 @@ const Upload = () => {
       const s3Response = await axios.put(uploadUrl, file, {
         headers: { ContentType: file.type, "Access-Control-Allow-Origin": "*" },
       });
-      console.log(s3Response);
+      if (s3Response.status === 200) {
+        setSuccess(true);
+        setLoading(false);
+        setMessage("Successfully uploaded your file");
+        console.log('s3Response', s3Response);
+      } else { 
+        throw new Error('Error, please try again later')
+      }
     } catch (error) {
+      setError(true);
+      setSuccess(false);
+      setLoading(false);
+      setMessage("Error occurred please try again later");
       console.log(error);
     }
   };
@@ -107,9 +130,38 @@ const Upload = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={loading}
             >
               Upload
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
             </Button>
+            {error && (
+              <Grid
+                container
+                justify="center"
+                className={classes.failureContainer}
+              >
+                <Grid item>
+                  <Typography variant="subtitle2">{message}</Typography>
+                </Grid>
+              </Grid>)
+            }
+            {success && (
+              <Grid
+                container
+                justify="center"
+                className={classes.successContainer}
+              >
+                <Grid item>
+                  <Typography variant="subtitle2">{message}</Typography>
+                </Grid>
+              </Grid>)
+              }
           </form>
         </div>
       </Container>
