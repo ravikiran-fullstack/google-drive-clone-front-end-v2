@@ -27,4 +27,16 @@ export default makeStyles((theme) => ({
       background: "#e2e2e2",
     },
   },
+  anchor: {
+    marginRight: "10px",
+  },
+  cardActions: {
+    display: "flex",
+    cursor: "pointer",
+    background: "#f1f1f1",
+    color:'black',
+    "&:hover": {
+      background: "#c2c2c2",
+    },
+  },
 }));
