@@ -37,8 +37,8 @@ export default makeStyles((theme) => ({
     marginTop: "1rem",
   },
   img: {
-    width: "150px",
-    height: "150px",
+    width: "25vw",
+    height: "40vh",
     objectFit: "cover",
   },
   buttonProgress: {

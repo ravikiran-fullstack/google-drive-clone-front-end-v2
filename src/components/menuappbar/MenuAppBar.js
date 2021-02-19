@@ -1,9 +1,6 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-
-import clsx from "clsx";
-import { useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -38,7 +35,7 @@ export default function MenuAppBar({ handleThemeChange, isDark }) {
         className={classes.appBar}
       >
         <Toolbar>
-        <img className="gb_uc gb_8d" src="//ssl.gstatic.com/images/branding/product/1x/drive_2020q4_48dp.png" alt="" aria-hidden="true" style={{ width: "40px", height: "40px"}}/>
+        <img src="//ssl.gstatic.com/images/branding/product/1x/drive_2020q4_48dp.png" alt="" aria-hidden="true" className={classes.brandLogo}/>
           <Typography variant="h6" noWrap style={{ flexGrow: "1", marginLeft: '8px' }}>
             Drive Clone
           </Typography>

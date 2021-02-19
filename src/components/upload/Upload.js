@@ -22,22 +22,23 @@ const Upload = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState();
+  const [selectedFile, setSelectedFile] = useState();
   // const [enableUpload, setEna]
 
   const token = JSON.parse(localStorage.getItem("token"));
   if (!token) {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     window.location.assign("/home");
   }
 
   const fileHandler = (e) => {
-    setPreviewImage('');
+    setPreviewImage("");
     setShowPreview(false);
-    if (!e.target.files[0]) { 
+    if (!e.target.files[0]) {
       return;
-    }    
+    }
     console.log("e.target.files[0].filetype", e.target.files[0].type);
-
+    setSelectedFile(e.target.files[0]);
     if (e.target.files[0].type.includes("image")) {
       const fileReader = new FileReader();
       fileReader.onload = () => {
@@ -56,7 +57,7 @@ const Upload = () => {
     setError(false);
     setSuccess(false);
     setLoading(true);
-    setMessage('');
+    setMessage("");
     let file = fileInput.current.files[0];
     if (!file) {
       setLoading(false);
@@ -93,9 +94,9 @@ const Upload = () => {
         setSuccess(true);
         setLoading(false);
         setMessage("Successfully uploaded your file");
-        console.log('s3Response', s3Response);
-      } else { 
-        throw new Error('Error, please try again later')
+        console.log("s3Response", s3Response);
+      } else {
+        throw new Error("Error, please try again later");
       }
     } catch (error) {
       setError(true);
@@ -118,17 +119,64 @@ const Upload = () => {
             onSubmit={handleSubmit}
             noValidate={false}
           >
-            { showPreview && <div className="imgHolder">
-              <img src={previewImage} alt="" id="img" className={ classes.img} />
-            </div>}
-            <label>
-              <input type="file" ref={fileInput} onChange={fileHandler} />
-            </label>
+            {showPreview && (
+              <div className="imgHolder">
+                <img
+                  src={previewImage}
+                  alt=""
+                  id="img"
+                  className={classes.img}
+                />
+              </div>
+            )}
+
+            <Grid container spacing={1} style={{ marginTop: "20px" }}>
+              <Grid item xs={4} className={classes.gridItem}>
+                <label htmlFor="upload-photo">
+                  <input
+                    style={{ display: "none" }}
+                    id="upload-photo"
+                    name="upload-photo"
+                    type="file"
+                    ref={fileInput}
+                    onChange={fileHandler}
+                  />
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    component="span"
+                    size="small"
+                  >
+                    Choose File
+                  </Button>
+                </label>
+              </Grid>
+              <Grid item xs={8} className={classes.gridItem}>
+                {selectedFile ? (
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} className={classes.gridItem}>
+                      <Typography variant="subtitle2">
+                        File Name: {selectedFile.name}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                ) : (
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} className={classes.gridItem}>
+                      <Typography variant="subtitle2">
+                        Choose a file to upload
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
+            </Grid>
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
+              color="secondary"
               className={classes.submit}
               disabled={loading}
             >
@@ -149,8 +197,8 @@ const Upload = () => {
                 <Grid item>
                   <Typography variant="subtitle2">{message}</Typography>
                 </Grid>
-              </Grid>)
-            }
+              </Grid>
+            )}
             {success && (
               <Grid
                 container
@@ -160,8 +208,8 @@ const Upload = () => {
                 <Grid item>
                   <Typography variant="subtitle2">{message}</Typography>
                 </Grid>
-              </Grid>)
-              }
+              </Grid>
+            )}
           </form>
         </div>
       </Container>

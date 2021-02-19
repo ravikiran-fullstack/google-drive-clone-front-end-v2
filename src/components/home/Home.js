@@ -50,7 +50,7 @@ const Home = () => {
       } else { 
         file.displayImage = './images/doc.png';
       }
-      file.originalName = file.fileName.slice(6, file.fileName.length);
+      file.originalName = file.fileName.slice(4, file.fileName.length);
       // console.log('file.slice(file.fileName.indexOf("_") + 1, file.fileName.length - 1)', file.slice(file.fileName.indexOf("_") + 1, file.fileName.length - 1));
       // file.fileName = file.slice(file.fileName.indexOf("_") + 1, file.fileName.length - 1);
 

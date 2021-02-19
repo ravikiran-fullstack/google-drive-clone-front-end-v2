@@ -5,14 +5,15 @@ export default makeStyles((theme) => ({
     backgroundImage: `url(${Image})`,
   },
   root: {
-    width: "250px",
-    height: "260px",
+    width: "200px",
+    height: "230px",
     marginBottom: "10px",
+    borderRadius: "10px",
   },
   media: {
-    width: "270px",
-    height: "200px",
-    borderRadius: "10px",
+    width: "220px",
+    height: "170px",
+    
   },
   contextMenu: {
     width: "200px",
@@ -39,4 +40,11 @@ export default makeStyles((theme) => ({
       background: "#c2c2c2",
     },
   },
+  truncate: {
+    marginLeft:"10px", 
+    width: "120px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
+  }
 }));

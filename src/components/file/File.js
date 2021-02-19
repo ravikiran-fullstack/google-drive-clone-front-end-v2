@@ -10,6 +10,13 @@ import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
 import { useModal } from "react-modal-hook";
 import copy from "copy-to-clipboard";
 
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import ImageIcon from '@material-ui/icons/Image';
+import MovieIcon from '@material-ui/icons/Movie';
+import DescriptionIcon from '@material-ui/icons/Description';
+import GifIcon from '@material-ui/icons/Gif';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+
 import {
   MdLink,
   MdFileDownload,
@@ -22,10 +29,27 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import useStyles from "./styles";
 
 const File = (file) => {
+  console.log(file);
   const token = JSON.parse(localStorage.getItem("token"));
   const classes = useStyles();
   const [fileRef, setFileRef] = useState(file);
   const [link, setLink] = useState();
+
+  const generateIcon = (fileType) => { 
+    if (fileType.includes("image") && fileType.includes("gif")) {
+      return <GifIcon />
+    } else if (fileType.includes("image")) {
+      return <ImageIcon />
+    } else if (fileType.includes("pdf")) {
+      return <PictureAsPdfIcon />
+    } else if (fileType.includes("video")) {
+      return <MovieIcon />
+    } else if (fileType.includes("docx")) {
+      return <DescriptionIcon />
+    } else { 
+      return <FileCopyIcon />
+    }
+  }
 
   const fetchPresignedLink = async (fileRef) => {
     var data = JSON.stringify({
@@ -107,13 +131,6 @@ const File = (file) => {
   }
 
   const copyCodeToClipboard = () => {
-    // console.log('copyCodeToClipboard', link);
-    // const el = document.createElement("textarea");
-    // el.value = link;
-    // document.body.appendChild(el);
-    // el.select();
-    // document.execCommand("copy");
-    // document.body.removeChild(el);
     copy(link);
   };
 
@@ -193,9 +210,13 @@ const File = (file) => {
               overflow: "hidden",
               padding: "10px 0",
               textAlign: "center",
+              display: "flex"
             }}
           >
             <Typography gutterBottom variant="subtitle2">
+              { generateIcon(fileRef.fileType) }
+            </Typography>
+            <Typography gutterBottom variant="subtitle2" className={classes.truncate}>
               {fileRef.originalName}
             </Typography>
           </div>
