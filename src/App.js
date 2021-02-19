@@ -12,7 +12,7 @@ import MenuAppBar from "./components/menuappbar/MenuAppBar";
 
 import Container from "@material-ui/core/Container";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { red, green } from "@material-ui/core/colors";
+import { red, green, blue } from "@material-ui/core/colors";
 
 //hooks
 import useToken from "./hooks/useToken";
@@ -30,10 +30,10 @@ const App = () => {
     palette: {
       type: "light",
       primary: {
-        main: red[400]
+        main: "#fff"
       },
       secondary: {
-        main: green[400]
+        main: blue[800]
       }
     },
   });
