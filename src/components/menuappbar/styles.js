@@ -4,9 +4,12 @@ const drawerWidth = 240;
 export default makeStyles((theme) => ({
   root: {
     display: "flex",
+    
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    boxShadow: "none",
+    borderBottom: "1px solid #f1e6e6",
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

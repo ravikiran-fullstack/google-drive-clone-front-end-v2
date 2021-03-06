@@ -86,7 +86,11 @@ const Home = () => {
   const classes = useStyles();
   return (
     <>
-      <h1>Home</h1>
+      <Grid container className={classes.root}>
+        <Grid item>
+          My Drive
+        </Grid>
+      </Grid>
       <Grid container className={classes.root}>
         {files.map((file) => {
           return (
